@@ -13,9 +13,15 @@ class DecCalculator extends Calculator {
     */
     add(numberX, numberY) {
         let result = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let parInfo = this.$calculatorDOMElement.siblings('p')
+        // console.log(parInfo.text())
         for (let i = numberX.length - 1; i >= 0; i--) {
+            // let valid = /^[0-9]+$/.test(numberX[i]);
+            console.log(numberX[i], numberY[i])
+
             let carryBit = numberX[i] + numberY[i] + result[i];
-            console.log(carryBit)
+            //console.log(carryBit)
+
             if (carryBit === 10) {
                 result[i] = 0;
                 result[i - 1] = 1;
@@ -59,12 +65,8 @@ class DecCalculator extends Calculator {
     changeNumber(root) {
         let activeElement = root.find('.active')
         activeElement.attr('contenteditable', true).trigger("focus");
-        /* activeElement.removeClass("active");
-         activeElement.siblings().addClass("active");
-         root.children(":first-child").slideToggle(() => {
-             this.checkNumber();
-             this.updateResult();
-         }); */
+        activeElement.attr('title', 'podaj liczbę od 0-9')
+
     }
 
     /* Method changing Result
@@ -78,7 +80,7 @@ class DecCalculator extends Calculator {
                 let activeElement = $resultNumber.eq(j).find(".active").removeClass("active");
                 activeElement.siblings().addClass("active");
                 $resultNumber.eq(j).children(":first-child").text(this.resultNumberArray[i]);
-                //debugger;
+
             }
         }
     }
@@ -90,7 +92,8 @@ class DecCalculator extends Calculator {
         this.$calculatorDOMElement.find(".operator-bar span").on('click', (event) => {
             this.checkNumber();
             this.updateResult();
-        })
+        }).attr("title", "naciśnij plus aby dodać wpisane cyfry")
+        this.$calculatorDOMElement.tooltip()
     }
 
 }
